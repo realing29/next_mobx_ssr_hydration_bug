@@ -13,39 +13,20 @@ export function useStore() {
   return context;
 }
 
-// function initializeStore(initialData = null) {
-// 	const _store = store ?? new Store()
-
-// 	// If your page has Next.js data fetching methods that use a Mobx store, it will
-// 	// get hydrated here, check `pages/ssg.js` and `pages/ssr.js` for more details
-// 	if (initialData) {
-// 		_store.hydrate(initialData)
-// 	}
-// 	// For SSG and SSR always create a new store
-// 	if (typeof window === 'undefined') return _store
-// 	// Create the store once in the client
-// 	if (!store) store = _store
-
-// 	return _store
-// }
-
-let prevInitial;
-
 function initializeStore(initialData = null) {
-  const isSsr = typeof window === "undefined";
+  const _store = store ?? new Store();
 
-  if (isSsr) {
-    const _store = new Store();
-    if (initialData) _store.hydrate(initialData);
-    return _store;
-  } else {
-    if (!store) store = new Store();
-    if (prevInitial !== initialData && initialData) {
-      store.hydrate(initialData);
-      prevInitial = initialData;
-    }
-    return store;
+  // If your page has Next.js data fetching methods that use a Mobx store, it will
+  // get hydrated here, check `pages/ssg.js` and `pages/ssr.js` for more details
+  if (initialData) {
+    _store.hydrate(initialData);
   }
+  // For SSG and SSR always create a new store
+  if (typeof window === "undefined") return _store;
+  // Create the store once in the client
+  if (!store) store = _store;
+
+  return _store;
 }
 
 export function StoreProvider({ children, hydrationData: initialData }) {

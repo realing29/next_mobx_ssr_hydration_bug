@@ -15,7 +15,7 @@ export async function getStaticProps(context) {
     `https://jsonplaceholder.typicode.com/albums/${id}/photos`,
   );
   //! the more copies, the more re-renders
-  const copies = 35;
+  const copies = 25;
   return {
     props: {
       hydrationData: new Array(Math.floor(copies)).fill(data),
